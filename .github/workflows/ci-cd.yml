@@ -21,29 +21,7 @@ jobs:
       run: |
         pip install -r requirements.txt
         pip install -e .
-        pip install pytest
         pytest
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-region: eu-north-1
-
-    - name: Login to Amazon ECR
-      run: |
-        aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 800155829756.dkr.ecr.eu-north-1.amazonaws.com
-
-    - name: Build Docker image
-      run: |
-        docker build -t legal-app .
-
-    - name: Tag Docker image
-      run: |
-        docker tag legal-app:latest 800155829756.dkr.ecr.eu-north-1.amazonaws.com/legal-app:latest
-
-    - name: Push Docker image
-      run: |
-        docker push 800155829756.dkr.ecr.eu-north-1.amazonaws.com/legal-app:latest
 
     - name: Deploy to EC2
       uses: appleboy/ssh-action@v1.0.3
@@ -57,3 +35,4 @@ jobs:
           docker stop legal-app || true
           docker rm legal-app || true
           docker run -d --name legal-app -p 8000:8000 800155829756.dkr.ecr.eu-north-1.amazonaws.com/legal-app:latest
+
