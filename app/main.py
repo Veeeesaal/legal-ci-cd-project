@@ -7,4 +7,4 @@ app.include_router(health.router)
 
 @app.get("/")
 def root():
-    return {"message": "Legal App Running Successfully"}
+    return {"message": "CI/CD Deployment Successful"}
