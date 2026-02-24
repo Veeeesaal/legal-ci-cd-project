@@ -4,4 +4,7 @@ router = APIRouter()
 
 @router.get("/health")
 def health_check():
-    return {"status": "healthy"}
+    return {
+        "message": "Legal App Running Successfully",
+        "status": "healthy"
+    }
